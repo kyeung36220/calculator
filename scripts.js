@@ -1,4 +1,4 @@
-// Initialization of all buttons into variables
+// Initialization of all HTML into variables
 const screenText = document.querySelector(".screen .text")
 const numbers = document.querySelectorAll(".number")
 const operators = document.querySelectorAll(".operator")
@@ -20,7 +20,7 @@ let changedToFloat = false
 let operationUsed = false
 const screenMaxLength = 12
 
-// Initialization of all button click's functions
+// Initialization of all button mouse clicks functions
 numbers.forEach(number => {
     number.addEventListener("click", numberClicked)
 })
@@ -71,7 +71,7 @@ function overflowedLength(firstLength, secondLength) {
 }
 
 function fitToScreen(number) {
-    if (number.toString().length > 12) {
+    if (number.toString().length > screenMaxLength) {
         return `Infinity` //temporary solution until I know how to round e notation numbers
     }
     else {
@@ -93,7 +93,7 @@ function numberClicked(e) {
         return
     }
 
-    // resets entire calc if number is pressed after equal sign
+    // resets entire calc if number is pressed after equal sign is pressed
     else if (afterEqual == true) {
         clearText()
         firstNumber += number
@@ -121,7 +121,7 @@ function numberClicked(e) {
 function operatorClicked(e) {
 
     // if operation is already happening, will auto equal the current two numbers then accept more numbers
-    if (operationUsed = true) {
+    if (operationUsed == true) {
         equal()
         operationUsed = false
     }
