@@ -101,6 +101,7 @@ function operatorClicked(e) {
     reset("operatorClicked")
 }
 
+// Organizes the messy variables into readable format
 function reset(functionName) {
     changedToPercent = false
     changedToFloat = false
@@ -146,6 +147,7 @@ function equal() {
         total = currentNumber
     }
 
+    //rounds to 12 digits
     total = Math.round(total * 10000000000) / 10000000000
 
     screenText.textContent = total
@@ -165,6 +167,8 @@ function signChange() {
 }
 
 function changeToPercent() {
+
+    //prevents multiple percent signs
     if (changedToPercent == true) {
         return
     }
@@ -180,6 +184,8 @@ function changeToPercent() {
 }
 
 function changeToFloat() {
+    
+    //prevents multiple decimal points
     if (changedToFloat == true) {
         return
     }
