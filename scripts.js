@@ -21,6 +21,8 @@ function clearText() {
     blankSlate = true
     currentOperator = "nan"
     secondNumber = false
+    changedToPercent = false
+    changedToFloat = false
 }
 
 function numberClicked(e) {
@@ -54,9 +56,11 @@ function numberClicked(e) {
 }
 
 function operatorClicked(e) {
+    alteringNumber = ""
     currentOperator = e.target.value
     secondNumber = true
     changedToPercent = false
+    changedToFloat = false
     afterEqual = false
     blankSlate = false
 }
@@ -74,7 +78,13 @@ function equal() {
         total = multiply()
     }
     else if (currentOperator == "divide") {
-        total = divide()
+        if (alteringNumber == 0) {
+            alert("Can't divide by 0")
+            return
+        }
+        else {
+            total = divide()
+        }
     }
     else {
         total = currentNumber
@@ -84,12 +94,19 @@ function equal() {
     secondNumber = false
     afterEqual = true
     changedToPercent = false
+    changedToFloat = false
     blankSlate = false
 }
 
 function signChange() {
-    currentNumber *= -1
-    screenText.textContent = currentNumber
+    if (secondNumber == false) {
+        currentNumber *= -1
+        screenText.textContent = currentNumber
+    }
+    else {
+        alteringNumber *= -1
+        screenText.textContent = alteringNumber
+    }
 }
 
 function changeToPercent() {
@@ -105,6 +122,23 @@ function changeToPercent() {
         screenText.textContent = screenText.textContent + `%`
     }
     changedToPercent = true
+}
+
+function changeToFloat() {
+    if (changedToFloat == true) {
+        return
+    }
+    else {
+        if (secondNumber == false) {
+            currentNumber += "."
+            screenText.textContent = currentNumber
+        }
+        else {
+            alteringNumber += "."
+            screenText.textContent = alteringNumber
+        }
+    }
+    changedToFloat = true
 }
 
 const screenText = document.querySelector(".screen .text")
@@ -123,6 +157,7 @@ let currentOperator = undefined
 let secondNumber = false
 let afterEqual = false
 let changedToPercent = false
+let changedToFloat = false
 
 numbers.forEach(number => {
     number.addEventListener("click", numberClicked)
@@ -139,3 +174,5 @@ clear.addEventListener("click", clearText)
 sign.addEventListener("click", signChange)
 
 percent.addEventListener("click", changeToPercent)
+
+dot.addEventListener("click", changeToFloat)
