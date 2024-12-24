@@ -17,6 +17,7 @@ let secondNumberFocused = false
 let afterEqual = false
 let changedToPercent = false
 let changedToFloat = false
+let operationUsed = false
 const screenMaxLength = 12
 
 // Initialization of all button click's functions
@@ -120,6 +121,10 @@ function numberClicked(e) {
 }
 
 function operatorClicked(e) {
+    if (operationUsed = true) {
+        equal()
+        operationUsed = false
+    }
     secondNumber = ""
     currentOperator = e.target.value
     reset("operatorClicked")
@@ -133,16 +138,19 @@ function reset(functionName) {
         blankSlate = true
         afterEqual = false
         secondNumberFocused = false
+        operationUsed = false
     }
     else if (functionName === "operatorClicked") {
         blankSlate = false
         afterEqual = false
         secondNumberFocused = true
+        operationUsed = true
     }
     else if (functionName === "equal") {
         blankSlate = false
         afterEqual = true
         secondNumberFocused = false
+        operationUsed = false
     }
 }
 
