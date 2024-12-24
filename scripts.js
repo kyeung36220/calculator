@@ -1,17 +1,17 @@
-function add(a, b) {
-    return a + b
+function add() {
+    return currentNumber + alteringNumber
 }
 
-function subtract(a, b) {
-    return a - b
+function subtract() {
+    return currentNumber - alteringNumber
 }
 
-function multiply(a, b) {
-    return a * b
+function multiply() {
+    return currentNumber * alteringNumber
 }
 
-function divide(a, b) {
-    return a / b
+function divide() {
+    return currentNumber / alteringNumber
 }
 
 function clearText() {
@@ -19,8 +19,30 @@ function clearText() {
 }
 
 function numberClicked(e) {
-    screenText.textContent = `${e.target.value}`
-    alteringNumber = e.target.value
+    let number = e.target.value
+    screenText.textContent = number
+    if (firstCalc == true) {
+        currentNumber = number
+    }
+    else {
+        alteringNumber = number
+    }
+}
+
+function operatorClicked(e) {
+    let operator = e.target.value
+    if (operator == "add") {
+        add()
+    }
+    else if (operator == "subtract") {
+        subtract()
+    }
+    else if (operator == "multiply") {
+        multiply()
+    }
+    else if (operator == "divide"){
+        divide()
+    }
 }
 
 const screenText = document.querySelector(".screen .text")
@@ -31,9 +53,16 @@ const sign = document.querySelector(".sign")
 const percent = document.querySelector(".percent")
 const dot = document.querySelector(".dot")
 const equal = document.querySelector(".equal")
+
+let firstCalc = true
 let currentNumber = 0
 let alteringNumber = 0
+let currentOperator = "nan"
 
 numbers.forEach(number => {
     number.addEventListener("click", numberClicked)
+})
+
+operators.forEach(operator => {
+    operator.addEventListener("click", operatorClicked)
 })
