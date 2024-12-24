@@ -109,18 +109,18 @@ function numberClicked(e) {
 
     // sees if number is second number
     else if (secondNumberFocused == true) {
-        secondNumber += number
-        screenText.textContent = secondNumber
+        screenText.textContent = secondNumber == "-" ? secondNumber *= -1 : secondNumber += number
     }
 
     // if first number
     else {
-        secondNumber += number
-        screenText.textContent = secondNumber
+        screenText.textContent = firstNumber == "-" ? firstNumber *= -1 : firstNumber += number
     }
 }
 
 function operatorClicked(e) {
+
+    // if operation is already happening, will auto equal the current two numbers then accept more numbers
     if (operationUsed = true) {
         equal()
         operationUsed = false
@@ -201,11 +201,27 @@ function signChange() {
 
     //multiplies number by -1 to toggle negative/positive
     else if (secondNumberFocused == false) {
+    
+        // prevents -0
+        if (firstNumber == 0) {
+            firstNumber = "-"
+            screenText.textContent = `-`
+            return
+        }
         firstNumber *= -1
+        // toggles negative sign on screen for positive and negative numbers
         screenText.textContent = firstNumber > 0 ? screenText.textContent.slice(1) : `-${screenText.textContent}`
     }
     else {
+    
+        //prevents -0
+        if (secondNumber == 0) {
+            secondNumber = "-"
+            screenText.textContent = `-`
+            return
+        }
         secondNumber *= -1
+        // toggles negative sign on screen for positive and negative numbers
         screenText.textContent = secondNumber > 0 ? screenText.textContent.slice(1) : `-${screenText.textContent}`
     }
 }
