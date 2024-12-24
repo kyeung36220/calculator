@@ -16,7 +16,7 @@ body {
 }
 
 .screen {
-    background: rgb(201, 200, 200);
+    background: rgb(255, 255, 255);
     width:500px;
     height:100px;
     margin-bottom: 30px;
@@ -54,11 +54,12 @@ button {
     height: 80px;
     font-size: 50px;
     margin: 5px;
-    border-radius: 25px;
-    border: 5px solid black;
+    border-radius: 5px;
+    background-color: rgb(199, 199, 199);
+    border: 3px solid rgb(0, 0, 0);
 }
 
-button:active {
+button:hover {
     background-color: grey;
 }
 
