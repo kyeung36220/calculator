@@ -89,6 +89,9 @@ function equal() {
     else {
         total = currentNumber
     }
+
+    total = Math.round(total * 10000000000) / 10000000000
+
     screenText.textContent = total
     currentNumber = total
     secondNumber = false
