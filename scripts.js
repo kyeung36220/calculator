@@ -69,6 +69,15 @@ function overflowedLength(firstLength, secondLength) {
     return false
 }
 
+function fitToScreen(number) {
+    if (number.toString().length > 12) {
+        return `Infinity` //temporary solution until I know how to round e notation numbers
+    }
+    else {
+        return Math.round(number * 10000000000) / 10000000000
+    }
+}
+
 // When any digit is pressed
 function numberClicked(e) {
     let number = e.target.value
@@ -163,7 +172,7 @@ function equal() {
     }
 
     //rounds to 12 digits
-    total = Math.round(total * 10000000000) / 10000000000
+    total = fitToScreen(total)
 
     screenText.textContent = total
     firstNumber = total
