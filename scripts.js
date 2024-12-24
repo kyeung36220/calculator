@@ -16,33 +16,95 @@ function divide() {
 
 function clearText() {
     screenText.textContent = ""
+    currentNumber = ""
+    alteringNumber = ""
+    blankSlate = true
+    currentOperator = "nan"
+    secondNumber = false
 }
 
 function numberClicked(e) {
     let number = e.target.value
-    screenText.textContent = number
-    if (firstCalc == true) {
-        currentNumber = number
+    if (changedToPercent == true) {
+        return
     }
+
+    else if (afterEqual == true) {
+        clearText()
+        currentNumber += number
+        screenText.textContent = currentNumber
+        afterEqual = false
+    }
+
+    else if (blankSlate == true) {
+        currentNumber += number
+        screenText.textContent = currentNumber
+    }
+
+    else if (secondNumber == true) {
+        blankSlate = false
+        alteringNumber += number
+        screenText.textContent = alteringNumber
+    }
+
     else {
-        alteringNumber = number
+        alteringNumber += number
+        screenText.textContent = alteringNumber
     }
 }
 
 function operatorClicked(e) {
-    let operator = e.target.value
-    if (operator == "add") {
-        add()
+    currentOperator = e.target.value
+    secondNumber = true
+    changedToPercent = false
+    afterEqual = false
+    blankSlate = false
+}
+
+function equal() {
+    currentNumber = Number(currentNumber)
+    alteringNumber = Number(alteringNumber)
+    if (currentOperator == "add") {
+        total = add()
     }
-    else if (operator == "subtract") {
-        subtract()
+    else if (currentOperator == "subtract") {
+        total = subtract()
     }
-    else if (operator == "multiply") {
-        multiply()
+    else if (currentOperator == "multiply") {
+        total = multiply()
     }
-    else if (operator == "divide"){
-        divide()
+    else if (currentOperator == "divide") {
+        total = divide()
     }
+    else {
+        total = currentNumber
+    }
+    screenText.textContent = total
+    currentNumber = total
+    secondNumber = false
+    afterEqual = true
+    changedToPercent = false
+    blankSlate = false
+}
+
+function signChange() {
+    currentNumber *= -1
+    screenText.textContent = currentNumber
+}
+
+function changeToPercent() {
+    if (changedToPercent == true) {
+        return
+    }
+    else if (secondNumber == false) {
+        currentNumber /= 10
+        screenText.textContent = screenText.textContent + `%`
+    }
+    else {
+        alteringNumber /= 10
+        screenText.textContent = screenText.textContent + `%`
+    }
+    changedToPercent = true
 }
 
 const screenText = document.querySelector(".screen .text")
@@ -52,12 +114,15 @@ const clear = document.querySelector(".clear")
 const sign = document.querySelector(".sign")
 const percent = document.querySelector(".percent")
 const dot = document.querySelector(".dot")
-const equal = document.querySelector(".equal")
+const equalSign = document.querySelector(".equal")
 
-let firstCalc = true
-let currentNumber = 0
-let alteringNumber = 0
-let currentOperator = "nan"
+let blankSlate = true
+let currentNumber = ""
+let alteringNumber = ""
+let currentOperator = undefined
+let secondNumber = false
+let afterEqual = false
+let changedToPercent = false
 
 numbers.forEach(number => {
     number.addEventListener("click", numberClicked)
@@ -66,3 +131,11 @@ numbers.forEach(number => {
 operators.forEach(operator => {
     operator.addEventListener("click", operatorClicked)
 })
+
+equalSign.addEventListener("click", equal)
+
+clear.addEventListener("click", clearText)
+
+sign.addEventListener("click", signChange)
+
+percent.addEventListener("click", changeToPercent)
