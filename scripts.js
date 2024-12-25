@@ -252,8 +252,13 @@ function changeToPercent() {
 function changeToFloat() {
     
     //prevents multiple decimal points
-    if (changedToFloat == true) {
+    if (changedToFloat == true || changedToPercent == true) {
         return
+    }
+    else if (afterEqual == true) {
+        clearText()
+        firstNumber += "."
+        screenText.textContent = firstNumber
     }
     else {
         if (secondNumberFocused == false) {
