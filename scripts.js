@@ -75,8 +75,16 @@ function fitToScreen(number) {
     if (number > maxNumber) {
         return `Infinity` //temporary solution until I know how to round e notation numbers
     }
+    else if (number.toString().length > screenMaxLength) {
+        remainingSpace = screenMaxLength - number.toString().length
+        if (remainingSpace < 0) {
+            remainingSpace = 0
+        }
+
+        return Math.round((number * 10000000000) / 10000000000).toFixed(remainingSpace)
+    }
     else {
-        return Math.round(number * 10000000000) / 10000000000
+        return (Math.round(number * 10000000000) / 10000000000)
     }
 }
 
