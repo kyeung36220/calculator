@@ -19,6 +19,7 @@ let changedToPercent = false
 let changedToFloat = false
 let operationUsed = false
 const screenMaxLength = 12
+const maxNumber = 999999999999
 
 // Initialization of all button mouse clicks functions
 numbers.forEach(number => {
@@ -71,7 +72,7 @@ function overflowedLength(firstLength, secondLength) {
 }
 
 function fitToScreen(number) {
-    if (number.toString().length > screenMaxLength) {
+    if (number > maxNumber) {
         return `Infinity` //temporary solution until I know how to round e notation numbers
     }
     else {
@@ -188,9 +189,8 @@ function equal() {
 }
 
 function signChange() {
-    //prevents character overflow with percent sign AND negative sign (percent sign is 2 digits long and negative sign is 1 digit long, 2+1 = 3)
-    // HOWEVER NOTE: that in calculation when pressing percentage sign the actual number becomes a float (ex. 9999 -> 999.9) so we subtract 1 from the char amount, 3-1 = 2
-    if (changedToPercent == true && overflowedLength(firstNumber.toString().length + 2, secondNumber.toString().length + 2)) {
+    //prevents character overflow with percent sign AND negative sign
+    if (changedToPercent == true && overflowedLength(firstNumber.toString().length + 1, secondNumber.toString().length + 1)) {
         return
     }
 
@@ -233,8 +233,8 @@ function changeToPercent() {
         return
     }
 
-    //prevent character overflow with percentage sign (percent symbol is 2 characters big)
-    else if (overflowedLength(firstNumber.toString().length + 2, secondNumber.toString().length + 2)){
+    //prevent character overflow with percentage sign
+    else if (overflowedLength(firstNumber.toString().length + 1, secondNumber.toString().length + 1)){
         return
     }
 
