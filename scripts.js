@@ -36,6 +36,13 @@ sign.addEventListener("click", signChange)
 percent.addEventListener("click", changeToPercent)
 dot.addEventListener("click", changeToFloat)
 
+//keyboard functions
+numbers.forEach(number => {
+    number.addEventListener("keydown", numberClicked)
+})
+
+
+
 // Math functions
 function add() {
     return firstNumber + secondNumber
@@ -72,25 +79,30 @@ function overflowedLength(firstLength, secondLength) {
 }
 
 function fitToScreen(number) {
-    if (number > maxNumber) {
-        return `Infinity` //temporary solution until I know how to round e notation numbers
-    }
-    else if (number.toString().length > screenMaxLength) {
-        remainingSpace = screenMaxLength - number.toString().length
-        if (remainingSpace < 0) {
-            remainingSpace = 0
-        }
 
-        return Math.round((number * 10000000000) / 10000000000).toFixed(remainingSpace)
+    // if over screen limit in integers, will just return infinity as overflow
+    if (number > maxNumber) {
+        return `Infinity`
+    }
+
+    const numberString = number.toString()
+    const decimalIndex = numberString.indexOf('.')
+    const numberStringLength = numberString.length
+    const numberOfWholeNumbers = decimalIndex
+
+    // if there is a decimal and number length is greater than screen, then it will fix decimal points to the remaining slots after whole numbers
+    if (decimalIndex !== -1 && numberStringLength > screenMaxLength) {
+        return number.toFixed(screenMaxLength - numberOfWholeNumbers - 1)
     }
     else {
-        return (Math.round(number * 10000000000) / 10000000000)
+        return number
     }
 }
 
 // When any digit is pressed
 function numberClicked(e) {
     let number = e.target.value
+    console.log(e.code)
 
     //prevents user to input more than a number with 12 digits
     if (overflowedLength(firstNumber.toString().length, secondNumber.toString().length)) {
