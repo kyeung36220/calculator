@@ -1,5 +1,6 @@
 // Initialization of all HTML into variables
 const screenText = document.querySelector(".screen .text")
+const screenInputHistory = document.querySelector(".screen .inputHistory")
 const numbers = document.querySelectorAll(".number")
 const operators = document.querySelectorAll(".operator")
 const clear = document.querySelector(".clear")
@@ -36,13 +37,6 @@ sign.addEventListener("click", signChange)
 percent.addEventListener("click", changeToPercent)
 dot.addEventListener("click", changeToFloat)
 
-//keyboard functions
-numbers.forEach(number => {
-    number.addEventListener("keydown", numberClicked)
-})
-
-
-
 // Math functions
 function add() {
     return firstNumber + secondNumber
@@ -63,13 +57,14 @@ function divide() {
 // When AC is pressed
 function clearText() {
     screenText.textContent = ""
+    screenInputHistory.textContent = ""
     firstNumber = ""
     secondNumber = ""
     currentOperator = "nan"
     reset("clearText")
 }
 
-//prevents digits to overflow screen
+//prevents digits of user input to overflow screen
 function overflowedLength(firstLength, secondLength) {
     if (secondNumberFocused == false && firstLength >= screenMaxLength || secondNumberFocused == true && secondLength >= screenMaxLength) {
         alert("Character Limit Reached")
@@ -102,7 +97,6 @@ function fitToScreen(number) {
 // When any digit is pressed
 function numberClicked(e) {
     let number = e.target.value
-    console.log(e.code)
 
     //prevents user to input more than a number with 12 digits
     if (overflowedLength(firstNumber.toString().length, secondNumber.toString().length)) {
@@ -178,14 +172,19 @@ function reset(functionName) {
 function equal() {
     firstNumber = Number(firstNumber)
     secondNumber = Number(secondNumber)
+    let currentOperatorSign = ""
+
     if (currentOperator == "add") {
         total = add()
+        currentOperatorSign = "+"
     }
     else if (currentOperator == "subtract") {
         total = subtract()
+        currentOperatorSign = "-"
     }
     else if (currentOperator == "multiply") {
         total = multiply()
+        currentOperatorSign = "×"
     }
     else if (currentOperator == "divide") {
         if (secondNumber == 0) {
@@ -194,6 +193,7 @@ function equal() {
         }
         else {
             total = divide()
+            currentOperatorSign = "÷"
         }
     }
     else {
@@ -204,6 +204,7 @@ function equal() {
     total = fitToScreen(total)
 
     screenText.textContent = total
+    screenInputHistory.textContent = `${firstNumber} ${currentOperatorSign} ${secondNumber}`
     firstNumber = total
     reset("equal")
 }
